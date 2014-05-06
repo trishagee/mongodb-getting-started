@@ -3,7 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -15,9 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
-import java.util.List;
 
-import static com.mechanitis.mongodb.gettingstarted.util.Sort.ascending;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -35,13 +32,14 @@ public class RetrieveTest {
     }
 
     @Test
-    public void shouldRetrieveBobFromTheDatabase() {
+    public void shouldRetrieveBobFromTheDatabaseWhenHeIsTheOnlyOneInThere() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject result = collection.find().one();
+        // TODO: get this from querying the collection.  Hint: you can find just one
+        DBObject result = null;
 
         // Then
         assertThat((String) result.get("_id"), is("bob"));
@@ -57,13 +55,14 @@ public class RetrieveTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        List<DBObject> results = collection.find().sort(ascending("_id")).toArray();
-        //TODO sorting needed to ensure return order
+        // TODO: get a cursor with everything in the database
+        DBCursor cursor = null;
 
         // Then
-        assertThat(results.size(), is(2));
-        assertThat((String) results.get(0).get("_id"), is("bob"));
-        assertThat((String) results.get(1).get("_id"), is("charlie"));
+        assertThat(cursor.size(), is(2));
+        // they should come back in the same order they were put in
+        assertThat((String) cursor.next().get("_id"), is("charlie"));
+        assertThat((String) cursor.next().get("_id"), is("bob"));
     }
 
     @Test
@@ -76,7 +75,8 @@ public class RetrieveTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject query = new BasicDBObject("_id", "bob");
+        // TODO create the query document
+        DBObject query = null;
         DBCursor cursor = collection.find(query);
 
         // Then
