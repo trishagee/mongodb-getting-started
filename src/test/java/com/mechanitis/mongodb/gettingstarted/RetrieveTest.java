@@ -15,13 +15,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.mechanitis.mongodb.gettingstarted.util.Sort.ascending;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.contains;
 import static org.junit.Assert.assertThat;
 
 @SuppressWarnings("unchecked")
@@ -32,7 +30,7 @@ public class RetrieveTest {
     @Before
     public void setUp() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        database = mongoClient.getDB("JAXDatabase");
+        database = mongoClient.getDB("Examples");
         collection = database.getCollection("people");
     }
 
@@ -79,70 +77,12 @@ public class RetrieveTest {
 
         // When
         DBObject query = new BasicDBObject("_id", "bob");
-        DBCursor mongoView = collection.find(query);
+        DBCursor cursor = collection.find(query);
 
         // Then
-        assertThat(mongoView.count(), is(1));
-        assertThat((String) mongoView.one().get("name"), is("Bob The Amazing"));
+        assertThat(cursor.count(), is(1));
+        assertThat((String) cursor.one().get("name"), is("Bob The Amazing"));
     }
-
-    @Test
-    public void shouldConstructListOfPersonFromQueryResults() {
-        // Given
-        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
-
-        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
-
-        // When
-        final List<Person> results = new ArrayList<>();
-//        collection.find().forEach(new Block<DBObject>() {
-//            @Override
-//            public void apply(final DBObject DBObject) {
-//                DBObject addressDBObject = (DBObject) DBObject.get("address");
-//                Person person = new Person((String) DBObject.get("_id"),
-//                                           (String) DBObject.get("name"),
-//                                           new Address((String) addressDBObject.get("street"),
-//                                                       (String) addressDBObject.get("city"),
-//                                                       (int) addressDBObject.get("phone")),
-//                                           ((List<Integer>) DBObject.get("books")));
-//                results.add(person);
-//            }
-//        });
-
-        // Then
-        assertThat(results.size(), is(2));
-        assertThat(results, contains(charlie, bob));
-    }
-
-//    @Test
-//    public void shouldConstructListOfPersonFromQueryResultsJava8() {
-//        // Given
-//        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-//        collection.insert(charlie.toDBObject());
-//
-//        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-//        collection.insert(bob.toDBObject());
-//
-//        // When
-//        List<Person> results = new ArrayList<>();
-//        collection.find().forEach(DBObject -> {
-//                DBObject addressDBObject = (DBObject) DBObject.get("address");
-//                Person person = new Person((String) DBObject.get("_id"),
-//                                           (String) DBObject.get("name"),
-//                                           new Address((String) addressDBObject.get("street"),
-//                                                       (String) addressDBObject.get("city"),
-//                                                       (int) addressDBObject.get("phone")),
-//                                           ((List<Integer>) DBObject.get("books")));
-//                return results.add(person);
-//        });
-//
-//        // Then
-//        assertThat(results.size(), is(2));
-//        assertThat(results, contains(charlie, bob));
-//    }
-
 
     @After
     public void tearDown() {
