@@ -1,18 +1,17 @@
-package com.mechanitis.mongodb.gettingstarted;
+package com.mechanitis.mongodb.gettingstarted.person;
 
-import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import java.util.List;
 
-class Person {
+public class Person {
     private final String id;
     private final String name;
     private final Address address;
     private final List<Integer> bookIds;
 
-    Person(final String id, final String name, final Address address, final List<Integer> bookIds) {
+    public Person(final String id, final String name, final Address address, final List<Integer> bookIds) {
         this.id = id;
         this.name = name;
         this.address = address;
@@ -20,30 +19,24 @@ class Person {
     }
 
     public DBObject toDBObject() {
-        DBObject addressAsDBObject = new BasicDBObject("street", address.getStreet())
-                                     .append("city", address.getTown())
-                                     .append("phone", address.getPhone());
-        return new BasicDBObject("_id", id)
-               .append("name", name)
-               .append("address", addressAsDBObject)
-               .append("books", bookIds);
+        throw new UnsupportedOperationException("You need to implement this");
     }
 
     //getters and setters
 
-    String getId() {
+    public String getId() {
         return id;
     }
 
-    String getName() {
+    public String getName() {
         return name;
     }
 
-    Address getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    List<Integer> getBookIds() {
+    public List<Integer> getBookIds() {
         return bookIds;
     }
 

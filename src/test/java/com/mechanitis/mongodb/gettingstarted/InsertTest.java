@@ -1,6 +1,8 @@
 package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
+import com.mechanitis.mongodb.gettingstarted.person.Person;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -9,6 +11,8 @@ import com.mongodb.MongoClientURI;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
