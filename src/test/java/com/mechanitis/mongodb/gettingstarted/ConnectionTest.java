@@ -15,10 +15,10 @@ public class ConnectionTest {
     public void shouldConnectToTheMongoInstance() throws Exception {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         // Alternatively, this will initialise one with the default host and port
-        // MongoClient mongoClient = new MongoClient(new ServerAddress());
+        // MongoClient mongoClient = new MongoClient();
 
-        DB database = mongoClient.getDB("TheDatabase");
-        DBCollection collection = database.getCollection("TheCollection");
+        DB database = mongoClient.getDB("TheDatabaseName");
+        DBCollection collection = database.getCollection("TheCollectionName");
 
         assertThat(mongoClient, is(notNullValue()));
         assertThat(database, is(notNullValue()));

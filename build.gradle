@@ -8,7 +8,7 @@ repositories {
 }
 
 dependencies {
-    testCompile 'org.mongodb:mongo-java-driver:2.12.0'
+    testCompile 'org.mongodb:mongo-java-driver:2.12.1'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'junit:junit:4.11'
 }
