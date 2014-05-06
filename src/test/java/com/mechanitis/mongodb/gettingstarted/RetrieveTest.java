@@ -15,9 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
-import java.util.List;
 
-import static com.mechanitis.mongodb.gettingstarted.util.Sort.ascending;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -57,13 +55,12 @@ public class RetrieveTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        List<DBObject> results = collection.find().sort(ascending("_id")).toArray();
-        //TODO sorting needed to ensure return order
+        DBCursor cursor = collection.find();
 
         // Then
-        assertThat(results.size(), is(2));
-        assertThat((String) results.get(0).get("_id"), is("bob"));
-        assertThat((String) results.get(1).get("_id"), is("charlie"));
+        assertThat(cursor.size(), is(2));
+        assertThat((String) cursor.next().get("_id"), is("charlie"));
+        assertThat((String) cursor.next().get("_id"), is("bob"));
     }
 
     @Test
