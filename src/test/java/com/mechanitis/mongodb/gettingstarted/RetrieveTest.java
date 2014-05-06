@@ -2,6 +2,7 @@ package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
+import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -39,7 +40,7 @@ public class RetrieveTest {
     public void shouldRetrieveBobFromTheDatabase() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         DBObject result = collection.find().one();
@@ -52,10 +53,10 @@ public class RetrieveTest {
     public void shouldRetrieveEverythingFromTheDatabase() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         List<DBObject> results = collection.find().sort(ascending("_id")).toArray();
@@ -71,10 +72,10 @@ public class RetrieveTest {
     public void shouldSearchForAndReturnOnlyBobFromTheDatabaseWhenMorePeopleExist() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         DBObject query = new BasicDBObject("_id", "bob");
@@ -89,10 +90,10 @@ public class RetrieveTest {
     public void shouldConstructListOfPersonFromQueryResults() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         final List<Person> results = new ArrayList<>();

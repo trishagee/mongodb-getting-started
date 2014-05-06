@@ -1,8 +1,5 @@
 package com.mechanitis.mongodb.gettingstarted.person;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import java.util.List;
 
 public class Person {
@@ -18,18 +15,7 @@ public class Person {
         this.bookIds = bookIds;
     }
 
-    public DBObject toDBObject() {
-        DBObject addressAsDBObject = new BasicDBObject("street", address.getStreet())
-                                     .append("city", address.getTown())
-                                     .append("phone", address.getPhone());
-        return new BasicDBObject("_id", id)
-               .append("name", name)
-               .append("address", addressAsDBObject)
-               .append("books", bookIds);
-    }
-
     //getters and setters
-
     public String getId() {
         return id;
     }
