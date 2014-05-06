@@ -1,4 +1,4 @@
-package com.mechanitis.mongodb.jaxlondon;
+package com.mechanitis.mongodb.gettingstarted;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;

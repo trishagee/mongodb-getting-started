@@ -140,8 +140,7 @@ public class QueryTest {
     @Before
     public void setUp() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        database = mongoClient.getDB("JAXDatabase");
-        collection = database.getCollection("people");
+        database = mongoClient.getDB("Examples");
         collection = database.getCollection("people");
     }
 
