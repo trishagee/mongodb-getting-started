@@ -2,6 +2,7 @@ package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
+import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -29,13 +30,13 @@ public class RemoveTest {
     public void shouldDeleteOnlyCharlieFromTheDatabase() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
-        collection.insert(emily.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
         DBObject query = new BasicDBObject("_id", "charlie");
@@ -54,13 +55,13 @@ public class RemoveTest {
     public void shouldDeletePeopleWhoLiveInLondon() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
-        collection.insert(emily.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
         DBObject query = new BasicDBObject("address.city", "LondonTown");

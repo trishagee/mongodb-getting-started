@@ -1,8 +1,5 @@
 package com.mechanitis.mongodb.gettingstarted.person;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import java.util.List;
 
 public class Person {
@@ -18,12 +15,7 @@ public class Person {
         this.bookIds = bookIds;
     }
 
-    public DBObject toDBObject() {
-        throw new UnsupportedOperationException("You need to implement this");
-    }
-
     //getters and setters
-
     public String getId() {
         return id;
     }

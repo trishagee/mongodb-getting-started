@@ -2,6 +2,7 @@ package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
+import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -29,10 +30,10 @@ public class QueryTest {
     public void shouldFindAllDBObjectsWithTheNameCharles() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
@@ -47,10 +48,10 @@ public class QueryTest {
     public void shouldFindAllDBObjectsWithTheNameCharlesAndOnlyReturnNameAndId() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
@@ -71,10 +72,10 @@ public class QueryTest {
     public void shouldFindAllDBObjectsWithTheNameCharlesAndExcludeAddressInReturn() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
@@ -95,10 +96,10 @@ public class QueryTest {
     public void shouldReturnADBObjectWithAPhoneNumberLessThan1000000000() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 987654321), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
 
         // When

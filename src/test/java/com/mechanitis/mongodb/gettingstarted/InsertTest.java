@@ -2,7 +2,7 @@ package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
-import com.mongodb.BasicDBObject;
+import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -11,8 +11,6 @@ import com.mongodb.MongoClientURI;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
-import java.util.Arrays;
-import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
@@ -25,7 +23,7 @@ public class InsertTest {
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
 
         // When
-        DBObject bobAsDBObject = bob.toDBObject();
+        DBObject bobAsDBObject = PersonAdaptor.toDBObject(bob);
 
         // Then
         String expectedDBObject = "{" +
@@ -51,7 +49,7 @@ public class InsertTest {
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
 
         // When
-        collection.save(charlie.toDBObject());
+        collection.save(PersonAdaptor.toDBObject(charlie));
 
         // Then
         assertThat(collection.find().count(), is(1));

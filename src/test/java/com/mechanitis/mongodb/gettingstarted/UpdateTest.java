@@ -2,6 +2,7 @@ package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
+import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -32,10 +33,10 @@ public class UpdateTest {
     public void shouldUpdateCharliesAddress() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         String charliesNewAddress = "987 The New Street";
 
@@ -64,17 +65,17 @@ public class UpdateTest {
     public void shouldOnlyInsertDBObjectIfItDidNotExistWhenUpsertIsTrue() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // new person not in the database yet
         Person claire = new Person("claire", "Claire", new Address("1", "Town", 836558493), Collections.<Integer>emptyList());
 
         // When
         DBObject findClaire = new BasicDBObject("_id", claire.getId());
-        WriteResult resultOfUpdate = collection.update(findClaire, claire.toDBObject());
+        WriteResult resultOfUpdate = collection.update(findClaire, PersonAdaptor.toDBObject(claire));
 
         // Then
         assertThat(resultOfUpdate.getN(), is(0));
@@ -83,7 +84,7 @@ public class UpdateTest {
 
 
         // When
-        WriteResult resultOfUpsert = collection.update(findClaire, claire.toDBObject(), true, false);
+        WriteResult resultOfUpsert = collection.update(findClaire, PersonAdaptor.toDBObject(claire), true, false);
 
         // Then
         assertThat(resultOfUpsert.getN(), is(1));
@@ -98,13 +99,13 @@ public class UpdateTest {
     public void shouldOnlyUpdateTheFirstDBObjectMatchingTheQuery() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
-        collection.insert(emily.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
         DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
@@ -128,13 +129,13 @@ public class UpdateTest {
     public void shouldUpdateEveryoneLivingInLondon() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
-        collection.insert(emily.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
         DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
@@ -160,16 +161,16 @@ public class UpdateTest {
     public void shouldReplaceWholeDBObjectWithNewOne() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // When
         Person updatedCharlieObject = new Person("charlie", "Charles the Suave", new Address("A new street", "GreatCity", 7654321),
                                                  Collections.<Integer>emptyList());
         DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie, updatedCharlieObject.toDBObject());
+        WriteResult resultOfUpdate = collection.update(findCharlie, PersonAdaptor.toDBObject(updatedCharlieObject));
 
         // Then
         assertThat(resultOfUpdate.getN(), is(1));
@@ -190,10 +191,10 @@ public class UpdateTest {
     public void shouldAddAnotherBookToBobsBookIds() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(bob.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(charlie.toDBObject());
+        collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // When
         DBObject findBob = new BasicDBObject("_id", "bob");
