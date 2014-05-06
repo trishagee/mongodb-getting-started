@@ -9,12 +9,15 @@ import com.mongodb.DBObject;
  */
 public final class PersonAdaptor {
     public static final DBObject toDBObject(Person person) {
-        DBObject addressAsDBObject = new BasicDBObject("street", person.getAddress().getStreet())
-                                     .append("city", person.getAddress().getTown())
-                                     .append("phone", person.getAddress().getPhone());
         return new BasicDBObject("_id", person.getId())
                .append("name", person.getName())
-               .append("address", addressAsDBObject)
+               .append("address", toDBObject(person.getAddress()))
                .append("books", person.getBookIds());
+    }
+
+    private static DBObject toDBObject(Address address) {
+        return new BasicDBObject("street", address.getStreet())
+               .append("city", address.getTown())
+               .append("phone", address.getPhone());
     }
 }
