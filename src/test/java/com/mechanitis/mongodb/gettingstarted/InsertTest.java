@@ -2,6 +2,7 @@ package com.mechanitis.mongodb.gettingstarted;
 
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -10,12 +11,41 @@ import com.mongodb.MongoClientURI;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class InsertTest {
+    @Test
+    public void shouldSaveAPersonDocumentIntoTheDatabase() throws UnknownHostException {
+        // given
+        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
+        DB database = mongoClient.getDB("ExampleDatabase");
+        DBCollection collection = database.getCollection("person");
+
+        // when
+        List<Integer> books = Arrays.asList(27464, 747854);
+        DBObject person = new BasicDBObject("_id", "jo")
+                          .append("name", "Jo Bloggs")
+                          .append("address", new BasicDBObject("street", "123 Fake St")
+                                             .append("city", "Faketon")
+                                             .append("state", "MA")
+                                             .append("zip", 12345))
+                          .append("books", books);
+
+        collection.insert(person);
+
+        // then
+        assertThat(collection.find().count(), is(1));
+        assertThat(collection.findOne().get("_id").toString(), is("jo"));
+        
+        //finally
+        database.dropDatabase();
+    }
+
     @Test
     public void shouldTurnAPersonIntoADBObject() {
         // Given
