@@ -1,4 +1,4 @@
-package com.mechanitis.mongodb.gettingstarted;
+package com.mechanitis.mongodb.jaxlondon;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -12,16 +12,38 @@ import static org.junit.Assert.assertThat;
 
 public class ConnectionTest {
     @Test
-    public void shouldConnectToTheMongoInstance() throws Exception {
+    public void shouldCreateANewMongoClientConnectedToLocalhost() throws Exception {
+        // When
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         // Alternatively, this will initialise one with the default host and port
         // MongoClient mongoClient = new MongoClient();
 
+        // Then
+        assertThat(mongoClient, is(notNullValue()));
+    }
+
+    @Test
+    public void shouldGetADatabaseFromTheMongoClient() throws Exception {
+        // Given
+        MongoClient mongoClient = new MongoClient();
+
+        // When
         DB database = mongoClient.getDB("TheDatabaseName");
+
+        // Then
+        assertThat(database, is(notNullValue()));
+    }
+
+    @Test
+    public void shouldGetACollectionFromTheDatabase() throws Exception {
+        // Given
+        MongoClient mongoClient = new MongoClient();
+        DB database = mongoClient.getDB("TheDatabaseName");
+
+        // When
         DBCollection collection = database.getCollection("TheCollectionName");
 
-        assertThat(mongoClient, is(notNullValue()));
-        assertThat(database, is(notNullValue()));
+        // Then
         assertThat(collection, is(notNullValue()));
     }
 }
