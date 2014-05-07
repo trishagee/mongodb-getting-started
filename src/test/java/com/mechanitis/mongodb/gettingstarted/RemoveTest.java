@@ -9,6 +9,7 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.WriteResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,9 +41,11 @@ public class RemoveTest {
 
         // When
         DBObject query = new BasicDBObject("_id", "charlie");
-        collection.remove(query);
+        WriteResult resultOfRemove = collection.remove(query);
 
         // Then
+        assertThat(resultOfRemove.getN(), is(1));
+
         List<DBObject> remainingPeople = collection.find().toArray();
         assertThat(remainingPeople.size(), is(2));
 
@@ -65,9 +68,11 @@ public class RemoveTest {
 
         // When
         DBObject query = new BasicDBObject("address.city", "LondonTown");
-        collection.remove(query);
+        WriteResult resultOfRemove = collection.remove(query);
 
         // Then
+        assertThat(resultOfRemove.getN(), is(2));
+
         List<DBObject> remainingPeople = collection.find().toArray();
         assertThat(remainingPeople.size(), is(1));
 
