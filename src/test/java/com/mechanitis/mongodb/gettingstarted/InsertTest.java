@@ -49,7 +49,7 @@ public class InsertTest {
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
 
         // When
-        collection.insert(PersonAdaptor.toDBObject(charlie));
+        // TODO: insert Charlie into the collection
 
         // Then
         assertThat(collection.find().count(), is(1));

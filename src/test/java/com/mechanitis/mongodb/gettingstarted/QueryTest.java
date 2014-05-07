@@ -6,6 +6,7 @@ import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -16,7 +17,6 @@ import org.junit.Test;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import static com.mechanitis.mongodb.gettingstarted.util.Sort.ascending;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -36,8 +36,10 @@ public class QueryTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject query = new BasicDBObject("name", "Charles");
-        List<DBObject> results = collection.find(query).toArray();
+        // TODO create the correct query to find Charlie by name
+        DBObject query = null;
+        // TODO use this query to get a List of matching Documents from the database
+        List<DBObject> results = null;
 
         // Then
         assertThat(results.size(), is(1));
@@ -54,9 +56,10 @@ public class QueryTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject query = new BasicDBObject("name", "Charles");
-        List<DBObject> results = collection.find(query, new BasicDBObject("name", 1))
-                                           .toArray();
+        // TODO create the correct query to find Charlie by name (see above)
+        DBObject query = null;
+        // TODO use this query, combined with the "fields" selector, to get a list of result documents with only the name and ID fields
+        List<DBObject> results = null;
 
         // Then
         assertThat(results.size(), is(1));
@@ -78,9 +81,10 @@ public class QueryTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject query = new BasicDBObject("name", "Charles");
-        List<DBObject> results = collection.find(query, new BasicDBObject("address", 0))
-                                           .toArray();
+        // TODO create the correct query to find Charlie by name (see above)
+        DBObject query = null;
+        // TODO use this query, combined with the "fields" selector, to get a list of result documents without address subdocument
+        List<DBObject> results = null;
 
         // Then
         assertThat(results.size(), is(1));
@@ -103,12 +107,13 @@ public class QueryTest {
 
 
         // When
-        DBObject query = new BasicDBObject("address.phone", new BasicDBObject("$lt", 1000000000));
-        List<DBObject> results = collection.find(query)
-                                           .toArray();
+        //TODO build up a query which checks the numeric value
+        DBObject query = null;
+        // TODO use this query to get a List of matching Documents from the database
+        DBCursor results = collection.find(query);
 
         assertThat(results.size(), is(1));
-        assertThat((String) results.get(0).get("_id"), is(bob.getId()));
+        assertThat((String) results.next().get("_id"), is(bob.getId()));
     }
 
     //BONUS
@@ -120,11 +125,8 @@ public class QueryTest {
         }
 
         // When
-        List<DBObject> results = collection.find()
-                                           .sort(ascending("someIntValue"))
-                                           .skip(3)
-                                           .limit(7)
-                                           .toArray();
+        // TODO no need for a query, just combine the find with the other operators available
+        List<DBObject> results = null;
 
         // Then
         assertThat(results.size(), is(7));
