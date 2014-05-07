@@ -40,9 +40,10 @@ public class UpdateTest {
         String charliesNewAddress = "987 The New Street";
 
         // When
-        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie,
-                                                       new BasicDBObject("$set", new BasicDBObject("address.street", charliesNewAddress)));
+        // TODO create query to find Charlie by ID
+        DBObject findCharlie = null;
+        // TODO use the query to find charlie and update his street with the new address
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(1));
@@ -73,8 +74,10 @@ public class UpdateTest {
         Person claire = new Person("claire", "Claire", new Address("1", "Town", 836558493), Collections.<Integer>emptyList());
 
         // When
-        DBObject findClaire = new BasicDBObject("_id", claire.getId());
-        WriteResult resultOfUpdate = collection.update(findClaire, PersonAdaptor.toDBObject(claire));
+        // TODO create query to find Claire by ID
+        DBObject findClaire = null;
+        // TODO Perform an update with this new person to show it does NOT get added to the database
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(0));
@@ -83,7 +86,8 @@ public class UpdateTest {
 
 
         // When
-        WriteResult resultOfUpsert = collection.update(findClaire, PersonAdaptor.toDBObject(claire), true, false);
+        // TODO Perform an update with this new person to show it DOES get added to the database
+        WriteResult resultOfUpsert = null;
 
         // Then
         assertThat(resultOfUpsert.getN(), is(1));
@@ -107,11 +111,13 @@ public class UpdateTest {
         collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
-        DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
+        // TODO create query to find everyone with 'LondonTown' as their city
+        DBObject findLondoners = null;
         assertThat(collection.find(findLondoners).count(), is(2));
 
-        collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), true, false);
+        // TODO update only the first Londonder here to have a new field, "wasUpdated", with a value of true
 
+        
         // Then
         List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
         assertThat(londoners.size(), is(2));
@@ -137,11 +143,13 @@ public class UpdateTest {
         collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
-        DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
+        // TODO create query to find everyone with 'LondonTown' as their city
+        DBObject findLondoners = null;
         assertThat(collection.find(findLondoners).count(), is(2));
 
-        collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), false, true);
+        // TODO update all Londonders here to have a new field, "wasUpdated", with a value of true
 
+        
         // Then
         List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
         assertThat(londoners.size(), is(2));
@@ -168,8 +176,10 @@ public class UpdateTest {
         // When
         Person updatedCharlieObject = new Person("charlie", "Charles the Suave", new Address("A new street", "GreatCity", 7654321),
                                                  Collections.<Integer>emptyList());
-        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie, PersonAdaptor.toDBObject(updatedCharlieObject));
+        // TODO create query to find Charlie by ID
+        DBObject findCharlie = null;
+        // TODO do an update replacing the whole previous Document with the new one
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(1));
@@ -196,8 +206,9 @@ public class UpdateTest {
         collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // When
-        DBObject findBob = new BasicDBObject("_id", "bob");
-        collection.update(findBob, new BasicDBObject("$push", new BasicDBObject("books", 66)));
+        // TODO create query to find Bob by ID
+        DBObject findBob = null;
+        // TODO update the only Bob document to add the ID '66' to the array of Book IDs
 
         // Then
         DBObject newBob = collection.find(findBob).toArray().get(0);

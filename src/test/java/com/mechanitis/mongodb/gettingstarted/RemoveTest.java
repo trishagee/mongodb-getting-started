@@ -3,7 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -40,8 +39,10 @@ public class RemoveTest {
         collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
-        DBObject query = new BasicDBObject("_id", "charlie");
-        WriteResult resultOfRemove = collection.remove(query);
+        // TODO create a query to find charlie by ID
+        DBObject query = null;
+        // TODO execute the remove
+        WriteResult resultOfRemove = null;
 
         // Then
         assertThat(resultOfRemove.getN(), is(1));
@@ -67,8 +68,10 @@ public class RemoveTest {
         collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
-        DBObject query = new BasicDBObject("address.city", "LondonTown");
-        WriteResult resultOfRemove = collection.remove(query);
+        // TODO create the query to check the city field inside the address subdocument for 'LondonTown'
+        DBObject query = null;
+        // TODO execute the remove
+        WriteResult resultOfRemove = null;
 
         // Then
         assertThat(resultOfRemove.getN(), is(2));

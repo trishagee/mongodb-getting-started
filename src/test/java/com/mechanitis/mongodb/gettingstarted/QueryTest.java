@@ -110,7 +110,7 @@ public class QueryTest {
         //TODO build up a query which checks the numeric value
         DBObject query = null;
         // TODO use this query to get a List of matching Documents from the database
-        DBCursor results = collection.find(query);
+        DBCursor results = null;
 
         assertThat(results.size(), is(1));
         assertThat((String) results.next().get("_id"), is(bob.getId()));
