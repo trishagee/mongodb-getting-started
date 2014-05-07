@@ -6,6 +6,7 @@ import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
@@ -104,11 +105,10 @@ public class QueryTest {
 
         // When
         DBObject query = new BasicDBObject("address.phone", new BasicDBObject("$lt", 1000000000));
-        List<DBObject> results = collection.find(query)
-                                           .toArray();
+        DBCursor results = collection.find(query);
 
         assertThat(results.size(), is(1));
-        assertThat((String) results.get(0).get("_id"), is(bob.getId()));
+        assertThat((String) results.next().get("_id"), is(bob.getId()));
     }
 
     //BONUS
