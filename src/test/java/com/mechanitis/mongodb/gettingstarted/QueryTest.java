@@ -17,7 +17,6 @@ import org.junit.Test;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import static com.mechanitis.mongodb.gettingstarted.util.Sort.ascending;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -121,7 +120,7 @@ public class QueryTest {
 
         // When
         List<DBObject> results = collection.find()
-                                           .sort(ascending("someIntValue"))
+                                           .sort(new BasicDBObject("someIntValue", 1))
                                            .skip(3)
                                            .limit(7)
                                            .toArray();

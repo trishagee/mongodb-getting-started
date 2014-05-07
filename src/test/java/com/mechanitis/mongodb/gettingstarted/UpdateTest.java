@@ -18,7 +18,6 @@ import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mechanitis.mongodb.gettingstarted.util.Sort.ascending;
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -114,7 +113,7 @@ public class UpdateTest {
         collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), true, false);
 
         // Then
-        List<DBObject> londoners = collection.find(findLondoners).sort(ascending("_id")).toArray();
+        List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
         assertThat(londoners.size(), is(2));
 
         assertThat((String) londoners.get(0).get("name"), is(bob.getName()));
@@ -144,7 +143,7 @@ public class UpdateTest {
         collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), false, true);
 
         // Then
-        List<DBObject> londoners = collection.find(findLondoners).sort(ascending("_id")).toArray();
+        List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
         assertThat(londoners.size(), is(2));
 
         DBObject firstLondoner = londoners.get(0);
