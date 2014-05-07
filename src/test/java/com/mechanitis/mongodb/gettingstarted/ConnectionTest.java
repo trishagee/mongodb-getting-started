@@ -55,7 +55,7 @@ public class ConnectionTest {
         MongoClient mongoClient = new MongoClient();
         
         // When
-        mongoClient.close();
+        // TODO close the mongoClient
 
         // Then
         mongoClient.getDB("SomeDatabase").getCollection("coll").insert(new BasicDBObject("field", "value"));
