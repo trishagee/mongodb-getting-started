@@ -26,7 +26,7 @@ public class IndexTest {
         collection.insert(new BasicDBObject("fieldToIndex", "Bob"));
         
         // when
-        collection.createIndex(new BasicDBObject("fieldToIndex", 1));
+        // TODO: added the index to the collection
 
         // then
         DBObject indexKey = (DBObject) collection.getIndexInfo().get(1).get("key");
