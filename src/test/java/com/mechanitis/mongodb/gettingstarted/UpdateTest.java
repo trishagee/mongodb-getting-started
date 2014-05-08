@@ -59,6 +59,30 @@ public class UpdateTest {
         assertThat((int) address.get("phone"), is(charlie.getAddress().getPhone()));
     }
 
+    @Test
+    public void shouldAddANewFieldToAnExistingDocument() {
+        // Given
+        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
+        collection.insert(PersonAdaptor.toDBObject(bob));
+
+        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
+        collection.insert(PersonAdaptor.toDBObject(charlie));
+
+        // When
+        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
+        WriteResult resultOfUpdate = collection.update(findCharlie,
+                                                       new BasicDBObject("$set", new BasicDBObject("newField", "A New Value")));
+
+        // Then
+        assertThat(resultOfUpdate.getN(), is(1));
+
+        DBObject newCharlie = collection.find(findCharlie).toArray().get(0);
+        // this stuff should all be the same
+        assertThat((String) newCharlie.get("_id"), is(charlie.getId()));
+        assertThat((String) newCharlie.get("name"), is(charlie.getName()));
+        assertThat((String) newCharlie.get("newField"), is("A New Value"));
+    }
+
     //Upsert
     @Test
     public void shouldOnlyInsertDBObjectIfItDidNotExistWhenUpsertIsTrue() {
