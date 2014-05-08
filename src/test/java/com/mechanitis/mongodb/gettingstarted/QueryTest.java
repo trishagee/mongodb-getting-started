@@ -39,11 +39,11 @@ public class QueryTest {
         // TODO create the correct query to find Charlie by name
         DBObject query = null;
         // TODO use this query to get a List of matching Documents from the database
-        List<DBObject> results = null;
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(1));
-        assertThat((String) results.get(0).get("_id"), is(charlie.getId()));
+        assertThat((String) results.next().get("_id"), is(charlie.getId()));
     }
 
     @Test
@@ -59,11 +59,11 @@ public class QueryTest {
         // TODO create the correct query to find Charlie by name (see above)
         DBObject query = null;
         // TODO use this query, combined with the "fields" selector, to get a list of result documents with only the name and ID fields
-        List<DBObject> results = null;
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(1));
-        DBObject theOnlyResult = results.get(0);
+        DBObject theOnlyResult = results.next();
         assertThat((String) theOnlyResult.get("_id"), is(charlie.getId()));
         assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
@@ -84,11 +84,11 @@ public class QueryTest {
         // TODO create the correct query to find Charlie by name (see above)
         DBObject query = null;
         // TODO use this query, combined with the "fields" selector, to get a list of result documents without address subdocument
-        List<DBObject> results = null;
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(1));
-        DBObject theOnlyResult = results.get(0);
+        DBObject theOnlyResult = results.next();
         assertThat((String) theOnlyResult.get("_id"), is(charlie.getId()));
         assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
@@ -104,7 +104,6 @@ public class QueryTest {
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 987654321), asList(27464, 747854));
         collection.insert(PersonAdaptor.toDBObject(bob));
-
 
         // When
         //TODO build up a query which checks the numeric value
@@ -126,17 +125,17 @@ public class QueryTest {
 
         // When
         // TODO no need for a query, just combine the find with the other operators available
-        List<DBObject> results = null;
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(7));
-        assertThat((int) results.get(0).get("someIntValue"), is(3));
-        assertThat((int) results.get(1).get("someIntValue"), is(4));
-        assertThat((int) results.get(2).get("someIntValue"), is(5));
-        assertThat((int) results.get(3).get("someIntValue"), is(6));
-        assertThat((int) results.get(4).get("someIntValue"), is(7));
-        assertThat((int) results.get(5).get("someIntValue"), is(8));
-        assertThat((int) results.get(6).get("someIntValue"), is(9));
+        assertThat((int) results.next().get("someIntValue"), is(3));
+        assertThat((int) results.next().get("someIntValue"), is(4));
+        assertThat((int) results.next().get("someIntValue"), is(5));
+        assertThat((int) results.next().get("someIntValue"), is(6));
+        assertThat((int) results.next().get("someIntValue"), is(7));
+        assertThat((int) results.next().get("someIntValue"), is(8));
+        assertThat((int) results.next().get("someIntValue"), is(9));
     }
 
     @Before
