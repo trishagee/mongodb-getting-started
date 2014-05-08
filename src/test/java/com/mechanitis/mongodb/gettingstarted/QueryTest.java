@@ -37,11 +37,11 @@ public class QueryTest {
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
-        List<DBObject> results = collection.find(query).toArray();
+        DBCursor results = collection.find(query);
 
         // Then
         assertThat(results.size(), is(1));
-        assertThat((String) results.get(0).get("_id"), is(charlie.getId()));
+        assertThat((String) results.next().get("_id"), is(charlie.getId()));
     }
 
     @Test
@@ -55,12 +55,11 @@ public class QueryTest {
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
-        List<DBObject> results = collection.find(query, new BasicDBObject("name", 1))
-                                           .toArray();
+        DBCursor results = collection.find(query, new BasicDBObject("name", 1));
 
         // Then
         assertThat(results.size(), is(1));
-        DBObject theOnlyResult = results.get(0);
+        DBObject theOnlyResult = results.next();
         assertThat((String) theOnlyResult.get("_id"), is(charlie.getId()));
         assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
@@ -79,12 +78,11 @@ public class QueryTest {
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
-        List<DBObject> results = collection.find(query, new BasicDBObject("address", 0))
-                                           .toArray();
+        DBCursor results = collection.find(query, new BasicDBObject("address", 0));
 
         // Then
         assertThat(results.size(), is(1));
-        DBObject theOnlyResult = results.get(0);
+        DBObject theOnlyResult = results.next();
         assertThat((String) theOnlyResult.get("_id"), is(charlie.getId()));
         assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
@@ -101,11 +99,11 @@ public class QueryTest {
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 987654321), asList(27464, 747854));
         collection.insert(PersonAdaptor.toDBObject(bob));
 
-
         // When
         DBObject query = new BasicDBObject("address.phone", new BasicDBObject("$lt", 1000000000));
         DBCursor results = collection.find(query);
 
+        // Then
         assertThat(results.size(), is(1));
         assertThat((String) results.next().get("_id"), is(bob.getId()));
     }
@@ -119,21 +117,20 @@ public class QueryTest {
         }
 
         // When
-        List<DBObject> results = collection.find()
+        DBCursor results = collection.find()
                                            .sort(new BasicDBObject("someIntValue", 1))
                                            .skip(3)
-                                           .limit(7)
-                                           .toArray();
+                                           .limit(7);
 
         // Then
         assertThat(results.size(), is(7));
-        assertThat((int) results.get(0).get("someIntValue"), is(3));
-        assertThat((int) results.get(1).get("someIntValue"), is(4));
-        assertThat((int) results.get(2).get("someIntValue"), is(5));
-        assertThat((int) results.get(3).get("someIntValue"), is(6));
-        assertThat((int) results.get(4).get("someIntValue"), is(7));
-        assertThat((int) results.get(5).get("someIntValue"), is(8));
-        assertThat((int) results.get(6).get("someIntValue"), is(9));
+        assertThat((int) results.next().get("someIntValue"), is(3));
+        assertThat((int) results.next().get("someIntValue"), is(4));
+        assertThat((int) results.next().get("someIntValue"), is(5));
+        assertThat((int) results.next().get("someIntValue"), is(6));
+        assertThat((int) results.next().get("someIntValue"), is(7));
+        assertThat((int) results.next().get("someIntValue"), is(8));
+        assertThat((int) results.next().get("someIntValue"), is(9));
     }
 
     @Before
