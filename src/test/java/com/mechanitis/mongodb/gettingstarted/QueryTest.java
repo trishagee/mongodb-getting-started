@@ -111,6 +111,7 @@ public class QueryTest {
         // TODO use this query to get a List of matching Documents from the database
         DBCursor results = null;
 
+        // Then
         assertThat(results.size(), is(1));
         assertThat((String) results.next().get("_id"), is(bob.getId()));
     }
