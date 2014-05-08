@@ -70,9 +70,10 @@ public class UpdateTest {
         collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // When
-        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie,
-                                                       new BasicDBObject("$set", new BasicDBObject("newField", "A New Value")));
+        // TODO create query to find Charlie by ID
+        DBObject findCharlie = null;
+        // TODO use the query to find charlie and update his street with the new address
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(1));
