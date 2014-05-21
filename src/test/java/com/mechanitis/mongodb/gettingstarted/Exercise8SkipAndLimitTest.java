@@ -27,10 +27,8 @@ public class Exercise8SkipAndLimitTest {
         }
 
         // When
-        DBCursor results = collection.find()
-                                     .sort(new BasicDBObject("someIntValue", 1))
-                                     .skip(3)
-                                     .limit(7);
+        // TODO no need for a query, just combine the find with the other operators available
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(7));

@@ -3,7 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -34,8 +33,10 @@ public class Exercise5SimpleQueryTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject query = new BasicDBObject("name", "Charles");
-        DBCursor results = collection.find(query);
+        // TODO create the correct query to find Charlie by name
+        DBObject query = null;
+        // TODO use this query to get a List of matching Documents from the database
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(1));

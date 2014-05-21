@@ -3,7 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
@@ -34,8 +33,10 @@ public class Exercise7QueryOperatorsTest {
         collection.insert(PersonAdaptor.toDBObject(bob));
 
         // When
-        DBObject query = new BasicDBObject("address.phone", new BasicDBObject("$lt", 1000000000));
-        DBCursor results = collection.find(query);
+        //TODO build up a query which checks the numeric value
+        DBObject query = null;
+        // TODO use this query to get a List of matching Documents from the database
+        DBCursor results = null;
 
         // Then
         assertThat(results.size(), is(1));

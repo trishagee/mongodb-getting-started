@@ -3,7 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -37,9 +36,10 @@ public class Exercise11UpdateAFieldTest {
         String charliesNewAddress = "987 The New Street";
 
         // When
-        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie,
-                                                       new BasicDBObject("$set", new BasicDBObject("address.street", charliesNewAddress)));
+        // TODO create query to find Charlie by ID
+        DBObject findCharlie = null;
+        // TODO use the query to find charlie and update his street with the new address
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(1));
@@ -66,9 +66,10 @@ public class Exercise11UpdateAFieldTest {
         collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // When
-        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie,
-                                                       new BasicDBObject("$set", new BasicDBObject("newField", "A New Value")));
+        // TODO create query to find Charlie by ID
+        DBObject findCharlie = null;
+        // TODO use the query to find charlie and update his street with the new address
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(1));
@@ -91,8 +92,9 @@ public class Exercise11UpdateAFieldTest {
         collection.insert(PersonAdaptor.toDBObject(charlie));
 
         // When
-        DBObject findBob = new BasicDBObject("_id", "bob");
-        collection.update(findBob, new BasicDBObject("$push", new BasicDBObject("books", 66)));
+        // TODO create query to find Bob by ID
+        DBObject findBob = null;
+        // TODO update the only Bob document to add the ID '66' to the array of Book IDs
 
         // Then
         DBObject newBob = collection.find(findBob).toArray().get(0);

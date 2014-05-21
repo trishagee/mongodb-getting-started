@@ -3,7 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -39,8 +38,10 @@ public class Exercise13UpsertTest {
         Person claire = new Person("claire", "Claire", new Address("1", "Town", 836558493), Collections.<Integer>emptyList());
 
         // When
-        DBObject findClaire = new BasicDBObject("_id", claire.getId());
-        WriteResult resultOfUpdate = collection.update(findClaire, PersonAdaptor.toDBObject(claire));
+        // TODO create query to find Claire by ID
+        DBObject findClaire = null;
+        // TODO Perform an update with this new person to show it does NOT get added to the database
+        WriteResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getN(), is(0));
@@ -49,7 +50,8 @@ public class Exercise13UpsertTest {
 
 
         // When
-        WriteResult resultOfUpsert = collection.update(findClaire, PersonAdaptor.toDBObject(claire), true, false);
+        // TODO Perform an update with this new person to show it DOES get added to the database
+        WriteResult resultOfUpsert = null;
 
         // Then
         assertThat(resultOfUpsert.getN(), is(1));
