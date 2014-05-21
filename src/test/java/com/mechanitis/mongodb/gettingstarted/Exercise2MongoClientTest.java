@@ -4,7 +4,6 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -13,18 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class ConnectionTest {
-    @Test
-    public void shouldCreateANewMongoClientConnectedToLocalhost() throws Exception {
-        // When
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        // Alternatively, this will initialise one with the default host and port
-        // MongoClient mongoClient = new MongoClient();
-
-        // Then
-        assertThat(mongoClient, is(notNullValue()));
-    }
-
+public class Exercise2MongoClientTest {
     @Test
     public void shouldGetADatabaseFromTheMongoClient() throws Exception {
         // Given
@@ -54,7 +42,7 @@ public class ConnectionTest {
     public void shouldNotBeAbleToUseMongoClientAfterItHasBeenClosed() throws UnknownHostException {
         // Given
         MongoClient mongoClient = new MongoClient();
-        
+
         // When
         mongoClient.close();
 
