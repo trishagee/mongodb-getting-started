@@ -9,7 +9,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.WriteResult;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,15 +19,16 @@ import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-public class RemoveTest {
+public class Exercise12UpdateMultipleDocumentsTest {
     private DB database;
     private DBCollection collection;
 
+    //Multi=false
     @Test
-    public void shouldDeleteOnlyCharlieFromTheDatabase() {
+    public void shouldOnlyUpdateTheFirstDBObjectMatchingTheQuery() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
         collection.insert(PersonAdaptor.toDBObject(bob));
@@ -40,22 +40,25 @@ public class RemoveTest {
         collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
-        DBObject query = new BasicDBObject("_id", "charlie");
-        WriteResult resultOfRemove = collection.remove(query);
+        DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
+        assertThat(collection.find(findLondoners).count(), is(2));
+
+        collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), true, false);
 
         // Then
-        assertThat(resultOfRemove.getN(), is(1));
+        List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
+        assertThat(londoners.size(), is(2));
 
-        List<DBObject> remainingPeople = collection.find().toArray();
-        assertThat(remainingPeople.size(), is(2));
+        assertThat((String) londoners.get(0).get("name"), is(bob.getName()));
+        assertThat((boolean) londoners.get(0).get("wasUpdated"), is(true));
 
-        for (final DBObject remainingPerson : remainingPeople) {
-            assertThat((String) remainingPerson.get("_id"), is(not(charlie.getId())));
-        }
+        assertThat((String) londoners.get(1).get("name"), is(charlie.getName()));
+        assertThat(londoners.get(1).get("wasUpdated"), is(nullValue()));
     }
 
+    //Multi=true
     @Test
-    public void shouldDeletePeopleWhoLiveInLondon() {
+    public void shouldUpdateEveryoneLivingInLondon() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
         collection.insert(PersonAdaptor.toDBObject(bob));
@@ -67,16 +70,22 @@ public class RemoveTest {
         collection.insert(PersonAdaptor.toDBObject(emily));
 
         // When
-        DBObject query = new BasicDBObject("address.city", "LondonTown");
-        WriteResult resultOfRemove = collection.remove(query);
+        DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
+        assertThat(collection.find(findLondoners).count(), is(2));
+
+        collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), false, true);
 
         // Then
-        assertThat(resultOfRemove.getN(), is(2));
+        List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
+        assertThat(londoners.size(), is(2));
 
-        List<DBObject> remainingPeople = collection.find().toArray();
-        assertThat(remainingPeople.size(), is(1));
+        DBObject firstLondoner = londoners.get(0);
+        assertThat((String) firstLondoner.get("name"), is(bob.getName()));
+        assertThat((boolean) firstLondoner.get("wasUpdated"), is(true));
 
-        assertThat((String) remainingPeople.get(0).get("_id"), is(emily.getId()));
+        DBObject secondLondoner = londoners.get(1);
+        assertThat((String) secondLondoner.get("name"), is(charlie.getName()));
+        assertThat((boolean) secondLondoner.get("wasUpdated"), is(true));
     }
 
     @Before
