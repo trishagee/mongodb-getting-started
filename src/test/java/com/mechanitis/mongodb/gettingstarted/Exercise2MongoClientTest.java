@@ -12,17 +12,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-public class ConnectionTest {
-    @Test
-    public void shouldCreateANewMongoClientConnectedToLocalhost() throws Exception {
-        // When
-        // TODO: get/create the MongoClient
-        MongoClient mongoClient = null;
-
-        // Then
-        assertThat(mongoClient, is(notNullValue()));
-    }
-
+public class Exercise2MongoClientTest {
     @Test
     public void shouldGetADatabaseFromTheMongoClient() throws Exception {
         // Given

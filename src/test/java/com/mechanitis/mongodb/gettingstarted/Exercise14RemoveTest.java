@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertThat;
 
-public class RemoveTest {
+public class Exercise14RemoveTest {
     private DB database;
     private DBCollection collection;
 

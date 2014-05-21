@@ -16,7 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
-public class IndexTest {
+public class Exercise9IndexTest {
     private DB database;
     private DBCollection collection;
 

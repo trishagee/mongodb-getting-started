@@ -22,29 +22,9 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-public class QueryTest {
+public class Exercise6SelectFieldsTest {
     private DB database;
     private DBCollection collection;
-
-    @Test
-    public void shouldFindAllDBObjectsWithTheNameCharles() {
-        // Given
-        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
-
-        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
-
-        // When
-        // TODO create the correct query to find Charlie by name
-        DBObject query = null;
-        // TODO use this query to get a List of matching Documents from the database
-        DBCursor results = null;
-
-        // Then
-        assertThat(results.size(), is(1));
-        assertThat((String) results.next().get("_id"), is(charlie.getId()));
-    }
 
     @Test
     public void shouldFindAllDBObjectsWithTheNameCharlesAndOnlyReturnNameAndId() {
@@ -93,50 +73,6 @@ public class QueryTest {
         assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
         assertThat((List<Integer>) theOnlyResult.get("books"), is(charlie.getBookIds()));
-    }
-
-    //BONUS
-    @Test
-    public void shouldReturnADBObjectWithAPhoneNumberLessThan1000000000() {
-        // Given
-        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
-
-        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 987654321), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
-
-        // When
-        //TODO build up a query which checks the numeric value
-        DBObject query = null;
-        // TODO use this query to get a List of matching Documents from the database
-        DBCursor results = null;
-
-        // Then
-        assertThat(results.size(), is(1));
-        assertThat((String) results.next().get("_id"), is(bob.getId()));
-    }
-
-    //BONUS
-    @Test
-    public void shouldReturnDBObjects3to9Of20DBObjectsUsingSkipAndLimit() {
-        // Given
-        for (int i = 0; i < 20; i++) {
-            collection.insert(new BasicDBObject("name", "person" + i).append("someIntValue", i));
-        }
-
-        // When
-        // TODO no need for a query, just combine the find with the other operators available
-        DBCursor results = null;
-
-        // Then
-        assertThat(results.size(), is(7));
-        assertThat((int) results.next().get("someIntValue"), is(3));
-        assertThat((int) results.next().get("someIntValue"), is(4));
-        assertThat((int) results.next().get("someIntValue"), is(5));
-        assertThat((int) results.next().get("someIntValue"), is(6));
-        assertThat((int) results.next().get("someIntValue"), is(7));
-        assertThat((int) results.next().get("someIntValue"), is(8));
-        assertThat((int) results.next().get("someIntValue"), is(9));
     }
 
     @Before

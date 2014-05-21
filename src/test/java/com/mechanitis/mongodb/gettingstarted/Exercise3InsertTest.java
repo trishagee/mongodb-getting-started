@@ -16,7 +16,7 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class InsertTest {
+public class Exercise3InsertTest {
     @Test
     public void shouldTurnAPersonIntoADBObject() {
         // Given
