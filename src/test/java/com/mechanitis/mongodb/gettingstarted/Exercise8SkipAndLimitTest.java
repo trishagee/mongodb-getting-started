@@ -20,7 +20,7 @@ public class Exercise8SkipAndLimitTest {
     private MongoCollection<Document> collection;
 
     @Test
-    public void shouldReturnDBObjects3to9Of20DBObjectsUsingSkipAndLimit() {
+    public void shouldReturnDocuments3to9Of20DocumentsUsingSkipAndLimit() {
         // Given
         for (int i = 0; i < 20; i++) {
             collection.insertOne(new Document("name", "person" + i).append("someIntValue", i));

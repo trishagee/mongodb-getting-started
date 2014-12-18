@@ -18,12 +18,12 @@ import static org.junit.Assert.assertThat;
 
 public class Exercise3InsertTest {
     @Test
-    public void shouldTurnAPersonIntoADBObject() {
+    public void shouldTurnAPersonIntoADocument() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
 
         // When
-        Document bobAsDBObject = PersonAdaptor.toDocument(bob);
+        Document bobAsDocument = PersonAdaptor.toDocument(bob);
 
         // Then
         String expectedDocument = "{" +
@@ -36,7 +36,7 @@ public class Exercise3InsertTest {
                                   "} ," +
                                   " 'books' : [ 27464 , 747854]" +
                                   "}";
-        assertThat(bobAsDBObject, is(Document.valueOf(expectedDocument)));
+        assertThat(bobAsDocument, is(Document.valueOf(expectedDocument)));
     }
 
     @Test

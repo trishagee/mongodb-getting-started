@@ -24,7 +24,7 @@ public class Exercise7QueryOperatorsTest {
     private MongoCollection<Document> collection;
 
     @Test
-    public void shouldReturnADBObjectWithAPhoneNumberLessThan1000000000() {
+    public void shouldReturnADocumentWithAPhoneNumberLessThan1000000000() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
         collection.insertOne(PersonAdaptor.toDocument(charlie));

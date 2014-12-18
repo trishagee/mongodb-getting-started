@@ -3,7 +3,8 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.*;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -71,7 +72,7 @@ public class Exercise4RetrieveTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        DBObject query = new BasicDBObject("_id", "bob");
+        Document query = new Document("_id", "bob");
         MongoCursor<Document> cursor = collection.find(query).iterator();
 
         // Then

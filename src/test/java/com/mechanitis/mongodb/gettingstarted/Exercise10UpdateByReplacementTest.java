@@ -28,7 +28,7 @@ public class Exercise10UpdateByReplacementTest {
 
     @Ignore("Behaviour changed in 3.0 driver")
     @Test
-    public void shouldReplaceWholeDBObjectWithNewOne() {
+    public void shouldReplaceWholeDocumentWithNewOne() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
         collection.insertOne(PersonAdaptor.toDocument(bob));
@@ -40,17 +40,17 @@ public class Exercise10UpdateByReplacementTest {
         Person updatedCharlieObject = new Person("charlie", "Charles the Suave", new Address("A new street", "GreatCity", 7654321),
                                                  Collections.<Integer>emptyList());
         Document findCharlie = new Document("_id", charlie.getId());
-        UpdateResult resultOfUpdate = collection.updateOne(new Document(), PersonAdaptor.toDocument(updatedCharlieObject));
+        UpdateResult resultOfUpdate = collection.updateOne(findCharlie, PersonAdaptor.toDocument(updatedCharlieObject));
 
         // Then
         assertThat(resultOfUpdate.getModifiedCount(), is(1L));
 
-        Document newCharlieDBObject = collection.find(findCharlie).first();
+        Document newCharlieDocument = collection.find(findCharlie).first();
         // all values should have been updated to the new object values
-        assertThat(newCharlieDBObject.getString("_id"), is(updatedCharlieObject.getId()));
-        assertThat(newCharlieDBObject.getString("name"), is(updatedCharlieObject.getName()));
-        assertThat((List<Integer>) newCharlieDBObject.get("books"), is(updatedCharlieObject.getBookIds()));
-        Document address = (Document) newCharlieDBObject.get("address");
+        assertThat(newCharlieDocument.getString("_id"), is(updatedCharlieObject.getId()));
+        assertThat(newCharlieDocument.getString("name"), is(updatedCharlieObject.getName()));
+        assertThat((List<Integer>) newCharlieDocument.get("books"), is(updatedCharlieObject.getBookIds()));
+        Document address = (Document) newCharlieDocument.get("address");
         assertThat(address.getString("street"), is(updatedCharlieObject.getAddress().getStreet()));
         assertThat(address.getString("city"), is(updatedCharlieObject.getAddress().getTown()));
         assertThat(address.getInteger("phone"), is(updatedCharlieObject.getAddress().getPhone()));

@@ -3,8 +3,6 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
@@ -28,7 +26,7 @@ public class Exercise6SelectFieldsTest {
     private MongoCollection<Document> collection;
 
     @Test
-    public void shouldFindAllDBObjectsWithTheNameCharlesAndOnlyReturnNameAndId() {
+    public void shouldFindAllDocumentsWithTheNameCharlesAndOnlyReturnNameAndId() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
         collection.insertOne(PersonAdaptor.toDocument(charlie));
@@ -37,7 +35,7 @@ public class Exercise6SelectFieldsTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        DBObject query = new BasicDBObject("name", "Charles");
+        Document query = new Document("name", "Charles");
         MongoCursor<Document> results = collection.find(query).projection(new Document("name", 1)).iterator();
 
         // Then
@@ -51,7 +49,7 @@ public class Exercise6SelectFieldsTest {
 
     //BONUS
     @Test
-    public void shouldFindAllDBObjectsWithTheNameCharlesAndExcludeAddressInReturn() {
+    public void shouldFindAllDocumentsWithTheNameCharlesAndExcludeAddressInReturn() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
         collection.insertOne(PersonAdaptor.toDocument(charlie));
@@ -60,7 +58,7 @@ public class Exercise6SelectFieldsTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        DBObject query = new BasicDBObject("name", "Charles");
+        Document query = new Document("name", "Charles");
         MongoCursor<Document> results = collection.find(query).projection(new Document("address", 0)).iterator();
 
         // Then

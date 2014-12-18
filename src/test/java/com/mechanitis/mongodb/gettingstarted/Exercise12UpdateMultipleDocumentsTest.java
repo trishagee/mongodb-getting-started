@@ -27,7 +27,7 @@ public class Exercise12UpdateMultipleDocumentsTest {
 
     //Multi=false
     @Test
-    public void shouldOnlyUpdateTheFirstDBObjectMatchingTheQuery() {
+    public void shouldOnlyUpdateTheFirstDocumentMatchingTheQuery() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
         collection.insertOne(PersonAdaptor.toDocument(bob));

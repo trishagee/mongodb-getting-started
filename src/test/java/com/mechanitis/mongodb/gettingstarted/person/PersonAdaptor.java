@@ -4,7 +4,7 @@ import org.bson.Document;
 
 /**
  * This Adaptor allows us to separate our domain object, Person, from our library-specific classes, in this case the MongoDB-specific
- * DBObject.
+ * Document.
  */
 public final class PersonAdaptor {
     public static Document toDocument(Person person) {

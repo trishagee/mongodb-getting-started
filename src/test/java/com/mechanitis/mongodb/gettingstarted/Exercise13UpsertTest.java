@@ -3,10 +3,8 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.WriteResult;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.result.UpdateResult;
@@ -30,7 +28,7 @@ public class Exercise13UpsertTest {
 
     @Ignore("Behaviour changed in 3.0 driver")
     @Test
-    public void shouldOnlyInsertDBObjectIfItDidNotExistWhenUpsertIsTrue() {
+    public void shouldOnlyInsertDocumentIfItDidNotExistWhenUpsertIsTrue() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
         collection.insertOne(PersonAdaptor.toDocument(bob));
@@ -57,9 +55,9 @@ public class Exercise13UpsertTest {
         // Then
 //        assertThat(resultOfUpsert.getN(), is(1));
 //
-//        DBObject newClaireDBObject = collection.find(findClaire).toArray().get(0);
+//        Document newClaireDocument = collection.find(findClaire).toArray().get(0);
 //        // all values should have been updated to the new object values
-//        assertThat((String) newClaireDBObject.get("_id"), is(claire.getId()));
+//        assertThat((String) newClaireDocument.get("_id"), is(claire.getId()));
         Assert.fail("Implement Me");
     }
 
