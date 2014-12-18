@@ -1,6 +1,5 @@
 apply plugin: 'java'
 
-sourceCompatibility = 1.7
 version = '1.0'
 
 repositories {
@@ -11,4 +10,8 @@ dependencies {
     testCompile 'org.mongodb:mongo-java-driver:2.12.1'
     testCompile 'org.hamcrest:hamcrest-all:1.3'
     testCompile 'junit:junit:4.11'
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.2'
 }
