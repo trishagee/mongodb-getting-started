@@ -1,9 +1,9 @@
 package com.mechanitis.mongodb.gettingstarted;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -19,7 +19,7 @@ public class Exercise2MongoClientTest {
         MongoClient mongoClient = new MongoClient();
 
         // When
-        DB database = mongoClient.getDB("TheDatabaseName");
+        MongoDatabase database = mongoClient.getDatabase("TheDatabaseName");
 
         // Then
         assertThat(database, is(notNullValue()));
@@ -29,10 +29,10 @@ public class Exercise2MongoClientTest {
     public void shouldGetACollectionFromTheDatabase() throws Exception {
         // Given
         MongoClient mongoClient = new MongoClient();
-        DB database = mongoClient.getDB("TheDatabaseName");
+        MongoDatabase database = mongoClient.getDatabase("TheDatabaseName");
 
         // When
-        DBCollection collection = database.getCollection("TheCollectionName");
+        MongoCollection<Document> collection = database.getCollection("TheCollectionName");
 
         // Then
         assertThat(collection, is(notNullValue()));
@@ -47,7 +47,7 @@ public class Exercise2MongoClientTest {
         mongoClient.close();
 
         // Then
-        mongoClient.getDB("SomeDatabase").getCollection("coll").insert(new BasicDBObject("field", "value"));
+        mongoClient.getDatabase("SomeDatabase").getCollection("coll").insertOne(new Document("field", "value"));
     }
 
 }

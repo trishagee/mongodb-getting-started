@@ -4,12 +4,13 @@ import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,29 +24,29 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class Exercise6SelectFieldsTest {
-    private DB database;
-    private DBCollection collection;
+    private MongoDatabase database;
+    private MongoCollection<Document> collection;
 
     @Test
     public void shouldFindAllDBObjectsWithTheNameCharlesAndOnlyReturnNameAndId() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
+        collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
+        collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
-        DBCursor results = collection.find(query, new BasicDBObject("name", 1));
+        MongoCursor<Document> results = collection.find(query).projection(new Document("name", 1)).iterator();
 
         // Then
-        assertThat(results.size(), is(1));
-        DBObject theOnlyResult = results.next();
+        Document theOnlyResult = results.next();
         assertThat((String) theOnlyResult.get("_id"), is(charlie.getId()));
         assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
         assertThat(theOnlyResult.get("books"), is(nullValue()));
+        assertThat(results.hasNext(), is(false));
     }
 
     //BONUS
@@ -53,28 +54,28 @@ public class Exercise6SelectFieldsTest {
     public void shouldFindAllDBObjectsWithTheNameCharlesAndExcludeAddressInReturn() {
         // Given
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
+        collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
+        collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
         DBObject query = new BasicDBObject("name", "Charles");
-        DBCursor results = collection.find(query, new BasicDBObject("address", 0));
+        MongoCursor<Document> results = collection.find(query).projection(new Document("address", 0)).iterator();
 
         // Then
-        assertThat(results.size(), is(1));
-        DBObject theOnlyResult = results.next();
-        assertThat((String) theOnlyResult.get("_id"), is(charlie.getId()));
-        assertThat((String) theOnlyResult.get("name"), is(charlie.getName()));
+        Document theOnlyResult = results.next();
+        assertThat(theOnlyResult.getString("_id"), is(charlie.getId()));
+        assertThat(theOnlyResult.getString("name"), is(charlie.getName()));
         assertThat(theOnlyResult.get("address"), is(nullValue()));
         assertThat((List<Integer>) theOnlyResult.get("books"), is(charlie.getBookIds()));
+        assertThat(results.hasNext(), is(false));
     }
 
     @Before
     public void setUp() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        database = mongoClient.getDB("Examples");
+        database = mongoClient.getDatabase("Examples");
         collection = database.getCollection("people");
     }
 

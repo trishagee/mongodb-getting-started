@@ -3,15 +3,15 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.WriteResult;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
+import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -23,42 +23,43 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 public class Exercise10UpdateByReplacementTest {
-    private DB database;
-    private DBCollection collection;
+    private MongoDatabase database;
+    private MongoCollection<Document> collection;
 
+    @Ignore("Behaviour changed in 3.0 driver")
     @Test
     public void shouldReplaceWholeDBObjectWithNewOne() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
+        collection.insertOne(PersonAdaptor.toDocument(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
+        collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         // When
         Person updatedCharlieObject = new Person("charlie", "Charles the Suave", new Address("A new street", "GreatCity", 7654321),
                                                  Collections.<Integer>emptyList());
-        DBObject findCharlie = new BasicDBObject("_id", charlie.getId());
-        WriteResult resultOfUpdate = collection.update(findCharlie, PersonAdaptor.toDBObject(updatedCharlieObject));
+        Document findCharlie = new Document("_id", charlie.getId());
+        UpdateResult resultOfUpdate = collection.updateOne(new Document(), PersonAdaptor.toDocument(updatedCharlieObject));
 
         // Then
-        assertThat(resultOfUpdate.getN(), is(1));
+        assertThat(resultOfUpdate.getModifiedCount(), is(1L));
 
-        DBObject newCharlieDBObject = collection.find(findCharlie).toArray().get(0);
+        Document newCharlieDBObject = collection.find(findCharlie).first();
         // all values should have been updated to the new object values
-        assertThat((String) newCharlieDBObject.get("_id"), is(updatedCharlieObject.getId()));
-        assertThat((String) newCharlieDBObject.get("name"), is(updatedCharlieObject.getName()));
+        assertThat(newCharlieDBObject.getString("_id"), is(updatedCharlieObject.getId()));
+        assertThat(newCharlieDBObject.getString("name"), is(updatedCharlieObject.getName()));
         assertThat((List<Integer>) newCharlieDBObject.get("books"), is(updatedCharlieObject.getBookIds()));
-        DBObject address = (DBObject) newCharlieDBObject.get("address");
-        assertThat((String) address.get("street"), is(updatedCharlieObject.getAddress().getStreet()));
-        assertThat((String) address.get("city"), is(updatedCharlieObject.getAddress().getTown()));
-        assertThat((int) address.get("phone"), is(updatedCharlieObject.getAddress().getPhone()));
+        Document address = (Document) newCharlieDBObject.get("address");
+        assertThat(address.getString("street"), is(updatedCharlieObject.getAddress().getStreet()));
+        assertThat(address.getString("city"), is(updatedCharlieObject.getAddress().getTown()));
+        assertThat(address.getInteger("phone"), is(updatedCharlieObject.getAddress().getPhone()));
     }
 
     @Before
     public void setUp() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        database = mongoClient.getDB("Examples");
+        database = mongoClient.getDatabase("Examples");
         collection = database.getCollection("people");
     }
 

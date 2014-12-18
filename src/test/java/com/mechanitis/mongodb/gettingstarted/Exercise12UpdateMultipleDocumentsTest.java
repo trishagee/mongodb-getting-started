@@ -3,19 +3,18 @@ package com.mechanitis.mongodb.gettingstarted;
 import com.mechanitis.mongodb.gettingstarted.person.Address;
 import com.mechanitis.mongodb.gettingstarted.person.Person;
 import com.mechanitis.mongodb.gettingstarted.person.PersonAdaptor;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
 import java.util.Collections;
-import java.util.List;
 
 import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
@@ -23,37 +22,40 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class Exercise12UpdateMultipleDocumentsTest {
-    private DB database;
-    private DBCollection collection;
+    private MongoDatabase database;
+    private MongoCollection<Document> collection;
 
     //Multi=false
     @Test
     public void shouldOnlyUpdateTheFirstDBObjectMatchingTheQuery() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
+        collection.insertOne(PersonAdaptor.toDocument(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
+        collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
-        collection.insert(PersonAdaptor.toDBObject(emily));
+        collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
-        DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
-        assertThat(collection.find(findLondoners).count(), is(2));
+        Document findLondoners = new Document("address.city", "LondonTown");
+        assertThat(collection.count(findLondoners), is(2L));
 
-        collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), true, false);
+        collection.updateOne(findLondoners, new Document("$set", new Document("wasUpdated", true)));
 
         // Then
-        List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
-        assertThat(londoners.size(), is(2));
+        MongoCursor<Document> londoners = collection.find(findLondoners).sort(new Document("_id", 1)).iterator();
 
-        assertThat((String) londoners.get(0).get("name"), is(bob.getName()));
-        assertThat((boolean) londoners.get(0).get("wasUpdated"), is(true));
+        Document firstLondoner = londoners.next();
+        assertThat(firstLondoner.getString("name"), is(bob.getName()));
+        assertThat(firstLondoner.getBoolean("wasUpdated"), is(true));
 
-        assertThat((String) londoners.get(1).get("name"), is(charlie.getName()));
-        assertThat(londoners.get(1).get("wasUpdated"), is(nullValue()));
+        Document secondLondoner = londoners.next();
+        assertThat(secondLondoner.getString("name"), is(charlie.getName()));
+        assertThat(secondLondoner.get("wasUpdated"), is(nullValue()));
+
+        assertThat(londoners.hasNext(), is(false));
     }
 
     //Multi=true
@@ -61,37 +63,38 @@ public class Exercise12UpdateMultipleDocumentsTest {
     public void shouldUpdateEveryoneLivingInLondon() {
         // Given
         Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
-        collection.insert(PersonAdaptor.toDBObject(bob));
+        collection.insertOne(PersonAdaptor.toDocument(bob));
 
         Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
-        collection.insert(PersonAdaptor.toDBObject(charlie));
+        collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
-        collection.insert(PersonAdaptor.toDBObject(emily));
+        collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
-        DBObject findLondoners = new BasicDBObject("address.city", "LondonTown");
-        assertThat(collection.find(findLondoners).count(), is(2));
+        Document findLondoners = new Document("address.city", "LondonTown");
+        assertThat(collection.count(findLondoners), is(2L));
 
-        collection.update(findLondoners, new BasicDBObject("$set", new BasicDBObject("wasUpdated", true)), false, true);
+        collection.updateMany(findLondoners, new Document("$set", new Document("wasUpdated", true)));
 
         // Then
-        List<DBObject> londoners = collection.find(findLondoners).sort(new BasicDBObject("_id", 1)).toArray();
-        assertThat(londoners.size(), is(2));
+        MongoCursor<Document> londoners = collection.find(findLondoners).sort(new Document("_id", 1)).iterator();
 
-        DBObject firstLondoner = londoners.get(0);
-        assertThat((String) firstLondoner.get("name"), is(bob.getName()));
-        assertThat((boolean) firstLondoner.get("wasUpdated"), is(true));
+        Document firstLondoner = londoners.next();
+        assertThat(firstLondoner.getString("name"), is(bob.getName()));
+        assertThat(firstLondoner.getBoolean("wasUpdated"), is(true));
 
-        DBObject secondLondoner = londoners.get(1);
-        assertThat((String) secondLondoner.get("name"), is(charlie.getName()));
-        assertThat((boolean) secondLondoner.get("wasUpdated"), is(true));
+        Document secondLondoner = londoners.next();
+        assertThat(secondLondoner.getString("name"), is(charlie.getName()));
+        assertThat(secondLondoner.getBoolean("wasUpdated"), is(true));
+
+        assertThat(londoners.hasNext(), is(false));
     }
 
     @Before
     public void setUp() throws UnknownHostException {
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        database = mongoClient.getDB("Examples");
+        database = mongoClient.getDatabase("Examples");
         collection = database.getCollection("people");
     }
 
