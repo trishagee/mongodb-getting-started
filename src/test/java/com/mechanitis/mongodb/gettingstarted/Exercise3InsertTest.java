@@ -20,22 +20,23 @@ public class Exercise3InsertTest {
     @Test
     public void shouldTurnAPersonIntoADocument() {
         // Given
-        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
+        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(
+                27464, 747854));
 
         // When
         Document bobAsDocument = PersonAdaptor.toDocument(bob);
 
         // Then
-        String expectedDocument = "{" +
-                                  " '_id' : 'bob' ," +
-                                  " 'name' : 'Bob The Amazing' ," +
-                                  " 'address' : {" +
-                                    " 'street' : '123 Fake St' ," +
-                                    " 'city' : 'LondonTown' ," +
-                                    " 'phone' : 1234567890" +
-                                  "} ," +
-                                  " 'books' : [ 27464 , 747854]" +
-                                  "}";
+        String expectedDocument = "{"
+                + " '_id' : 'bob' ,"
+                + " 'name' : 'Bob The Amazing' ,"
+                + " 'address' : {"
+                + " 'street' : '123 Fake St' ,"
+                + " 'city' : 'LondonTown' ,"
+                + " 'phone' : 1234567890"
+                + "} ,"
+                + " 'books' : [ 27464 , 747854]"
+                + "}";
         assertThat(bobAsDocument, is(Document.valueOf(expectedDocument)));
     }
 
@@ -46,7 +47,8 @@ public class Exercise3InsertTest {
         MongoDatabase database = mongoClient.getDatabase("Examples");
         MongoCollection<Document> collection = database.getCollection("people");
 
-        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
+        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890),
+                                    asList(1, 74));
 
         // When
         collection.insertOne(PersonAdaptor.toDocument(charlie));

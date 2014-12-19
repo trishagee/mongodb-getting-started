@@ -29,13 +29,16 @@ public class Exercise14RemoveTest {
     @Test
     public void shouldDeleteOnlyCharlieFromTheDatabase() {
         // Given
-        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
+        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(
+                27464, 747854));
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
-        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
+        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890),
+                                    asList(1, 74));
         collection.insertOne(PersonAdaptor.toDocument(charlie));
 
-        Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
+        Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383),
+                                  Collections.<Integer>emptyList());
         collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
@@ -48,7 +51,7 @@ public class Exercise14RemoveTest {
         MongoCursor<Document> remainingPeople = collection.find().iterator();
 
         int size = 0;
-        while(remainingPeople.hasNext()) {
+        while (remainingPeople.hasNext()) {
             assertThat(remainingPeople.next().getString("_id"), is(not(charlie.getId())));
             size++;
         }
@@ -58,13 +61,16 @@ public class Exercise14RemoveTest {
     @Test
     public void shouldDeletePeopleWhoLiveInLondon() {
         // Given
-        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(27464, 747854));
+        Person bob = new Person("bob", "Bob The Amazing", new Address("123 Fake St", "LondonTown", 1234567890), asList(
+                27464, 747854));
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
-        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890), asList(1, 74));
+        Person charlie = new Person("charlie", "Charles", new Address("74 That Place", "LondonTown", 1234567890),
+                                    asList(1, 74));
         collection.insertOne(PersonAdaptor.toDocument(charlie));
 
-        Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383), Collections.<Integer>emptyList());
+        Person emily = new Person("emily", "Emily", new Address("5", "Some Town", 646383),
+                                  Collections.<Integer>emptyList());
         collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
