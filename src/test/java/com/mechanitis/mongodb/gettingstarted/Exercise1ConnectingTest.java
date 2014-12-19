@@ -9,7 +9,7 @@ import static org.junit.Assert.assertThat;
 
 public class Exercise1ConnectingTest {
     @Test
-    public void shouldCreateANewMongoClientConnectedToLocalhost() throws Exception {
+    public void shouldCreateANewMongoClientConnectedToLocalhost() {
         // When
         // TODO: get/create the MongoClient
         MongoClient mongoClient = null;
