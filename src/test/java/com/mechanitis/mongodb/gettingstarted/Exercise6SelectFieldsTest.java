@@ -35,7 +35,9 @@ public class Exercise6SelectFieldsTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        Document query = new Document("name", "Charles");
+        // TODO create the correct query to find Charlie by name (see above)
+        Document query = null;
+        // TODO use this query, combined with projection, to get a list of result documents with only the name and ID fields
         MongoCursor<Document> results = collection.find(query).projection(new Document("name", 1)).iterator();
 
         // Then
@@ -58,8 +60,10 @@ public class Exercise6SelectFieldsTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        Document query = new Document("name", "Charles");
-        MongoCursor<Document> results = collection.find(query).projection(new Document("address", 0)).iterator();
+        // TODO create the correct query to find Charlie by name (see above)
+        Document query = null;
+        // TODO use this query, combined with projection, to get a list of result documents without address subdocument
+        MongoCursor<Document> results = null;
 
         // Then
         Document theOnlyResult = results.next();

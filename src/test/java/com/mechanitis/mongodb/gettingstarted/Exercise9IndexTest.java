@@ -25,7 +25,7 @@ public class Exercise9IndexTest {
         collection.insertOne(new Document("fieldToIndex", "Bob"));
         
         // when
-        collection.createIndex(new Document("fieldToIndex", 1));
+        // TODO: added the index to the collection
 
         // then
         Document indexKey = (Document) collection.getIndexes().get(1).get("key");

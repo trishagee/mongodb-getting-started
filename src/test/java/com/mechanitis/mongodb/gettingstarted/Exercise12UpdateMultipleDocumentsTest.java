@@ -39,10 +39,11 @@ public class Exercise12UpdateMultipleDocumentsTest {
         collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
-        Document findLondoners = new Document("address.city", "LondonTown");
+        // TODO create query to find everyone with 'LondonTown' as their city
+        Document findLondoners = null;
         assertThat(collection.count(findLondoners), is(2L));
 
-        collection.updateOne(findLondoners, new Document("$set", new Document("wasUpdated", true)));
+        // TODO update only the first Londoner here to have a new field, "wasUpdated", with a value of true
 
         // Then
         MongoCursor<Document> londoners = collection.find(findLondoners).sort(new Document("_id", 1)).iterator();
@@ -72,10 +73,11 @@ public class Exercise12UpdateMultipleDocumentsTest {
         collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
-        Document findLondoners = new Document("address.city", "LondonTown");
+        // TODO create query to find everyone with 'LondonTown' as their city
+        Document findLondoners = null;
         assertThat(collection.count(findLondoners), is(2L));
 
-        collection.updateMany(findLondoners, new Document("$set", new Document("wasUpdated", true)));
+        // TODO update all Londoners here to have a new field, "wasUpdated", with a value of true
 
         // Then
         MongoCursor<Document> londoners = collection.find(findLondoners).sort(new Document("_id", 1)).iterator();

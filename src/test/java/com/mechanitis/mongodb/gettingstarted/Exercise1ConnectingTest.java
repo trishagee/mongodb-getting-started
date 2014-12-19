@@ -1,7 +1,6 @@
 package com.mechanitis.mongodb.gettingstarted;
 
 import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -12,9 +11,8 @@ public class Exercise1ConnectingTest {
     @Test
     public void shouldCreateANewMongoClientConnectedToLocalhost() throws Exception {
         // When
-        MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-        // Alternatively, this will initialise one with the default host and port
-        // MongoClient mongoClient = new MongoClient();
+        // TODO: get/create the MongoClient
+        MongoClient mongoClient = null;
 
         // Then
         assertThat(mongoClient, is(notNullValue()));

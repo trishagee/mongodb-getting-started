@@ -37,8 +37,10 @@ public class Exercise10ReplaceTest {
         // When
         Person updatedCharlieObject = new Person("charlie", "Charles the Suave", new Address("A new street", "GreatCity", 7654321),
                                                  Collections.<Integer>emptyList());
-        Document findCharlie = new Document("_id", charlie.getId());
-        UpdateResult resultOfUpdate = collection.replaceOne(findCharlie, PersonAdaptor.toDocument(updatedCharlieObject));
+        // TODO create query to find Charlie by ID
+        Document findCharlie = null;
+        // TODO do an update replacing the whole previous Document with the new one
+        UpdateResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getModifiedCount(), is(1L));

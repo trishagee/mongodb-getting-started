@@ -11,15 +11,6 @@ public final class PersonAdaptor {
     }
 
     public static Document toDocument(final Person person) {
-        return new Document("_id", person.getId())
-                .append("name", person.getName())
-                .append("address", toDocument(person.getAddress()))
-                .append("books", person.getBookIds());
-    }
-
-    private static Document toDocument(final Address address) {
-        return new Document("street", address.getStreet())
-                .append("city", address.getTown())
-                .append("phone", address.getPhone());
+        throw new UnsupportedOperationException("You need to implement this");
     }
 }

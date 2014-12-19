@@ -27,11 +27,8 @@ public class Exercise8SkipAndLimitTest {
         }
 
         // When
-        MongoCursor<Document> results = collection.find()
-                                                  .sort(new Document("someIntValue", 1))
-                                                  .skip(3)
-                                                  .limit(7)
-                                                  .iterator();
+        // TODO no need for a query, just combine the find with the other operators available
+        MongoCursor<Document> results = null;
 
         // Then
         assertThat(results.next().getInteger("someIntValue"), is(3));

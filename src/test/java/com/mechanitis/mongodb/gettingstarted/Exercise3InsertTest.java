@@ -51,7 +51,7 @@ public class Exercise3InsertTest {
                                     asList(1, 74));
 
         // When
-        collection.insertOne(PersonAdaptor.toDocument(charlie));
+        // TODO: insert Charlie into the collection
 
         // Then
         assertThat(collection.count(), is(1L));

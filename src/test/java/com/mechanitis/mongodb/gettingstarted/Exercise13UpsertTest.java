@@ -7,7 +7,6 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.junit.After;
@@ -41,8 +40,10 @@ public class Exercise13UpsertTest {
                 .<Integer>emptyList());
 
         // When
-        Document findClaire = new Document("_id", claire.getId());
-        UpdateResult resultOfUpdate = collection.replaceOne(findClaire, PersonAdaptor.toDocument(claire));
+        // TODO create query to find Claire by ID
+        Document findClaire = null;
+        // TODO Perform a replacement with this new person to show it does NOT get added to the database
+        UpdateResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getModifiedCount(), is(0L));
@@ -51,7 +52,8 @@ public class Exercise13UpsertTest {
 
 
         // When
-        collection.replaceOne(findClaire, PersonAdaptor.toDocument(claire), new UpdateOptions().upsert(true));
+        // TODO Perform an update with this new person to show it DOES get added to the database
+        UpdateResult updateResult = null;
 
         // Then
         Document newClaireDocument = collection.find(findClaire).first();

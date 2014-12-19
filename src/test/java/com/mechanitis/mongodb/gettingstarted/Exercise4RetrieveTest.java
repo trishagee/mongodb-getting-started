@@ -38,7 +38,8 @@ public class Exercise4RetrieveTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        Document result = collection.find().first();
+        // TODO: get this from querying the collection.  Hint: you can find just one
+        Document result = null;
 
         // Then
         assertThat(result.getString("_id"), is("bob"));
@@ -54,7 +55,8 @@ public class Exercise4RetrieveTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        MongoCursor<Document> cursor = collection.find().iterator();
+        // TODO: get a cursor with everything in the database
+        MongoCursor<Document> cursor = null;
 
         // Then
         assertThat(cursor.next().getString("_id"), is("charlie"));
@@ -72,7 +74,8 @@ public class Exercise4RetrieveTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        Document query = new Document("_id", "bob");
+        // TODO create the query document
+        Document query = null;
         MongoCursor<Document> cursor = collection.find(query).iterator();
 
         // Then

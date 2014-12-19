@@ -33,8 +33,10 @@ public class Exercise7QueryOperatorsTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        Document query = new Document("address.phone", new Document("$lt", 1000000000));
-        MongoCursor<Document> results = collection.find(query).iterator();
+        //TODO build up a query which checks the numeric value
+        Document query = null;
+        // TODO use this query to get a List of matching Documents from the database
+        MongoCursor<Document> results = null;
 
         // Then
         assertThat(results.next().getString("_id"), is(bob.getId()));

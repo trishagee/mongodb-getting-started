@@ -33,11 +33,14 @@ public class Exercise5SimpleQueryTest {
         collection.insertOne(PersonAdaptor.toDocument(bob));
 
         // When
-        Document query = new Document("name", "Charles");
-        MongoCursor<Document> results = collection.find(query).iterator();
+        // TODO create the correct query to find Charlie by name
+        Document query = null;
+        // TODO use this query to get a List of matching Documents from the database
+        MongoCursor<Document> results = null;
 
         // Then
         assertThat(results.next().getString("_id"), is(charlie.getId()));
+        assertThat(results.hasNext(), is(false));
     }
 
     @Before

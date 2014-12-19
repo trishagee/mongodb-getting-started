@@ -36,9 +36,10 @@ public class Exercise11UpdateAFieldTest {
         String charliesNewAddress = "987 The New Street";
 
         // When
-        Document findCharlie = new Document("_id", charlie.getId());
-        UpdateResult resultOfUpdate = collection.updateOne(findCharlie,
-                new Document("$set", new Document("address.street", charliesNewAddress)));
+        // TODO create query to find Charlie by ID
+        Document findCharlie = null;
+        // TODO use the query to find charlie and update his street with the new address
+        UpdateResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getModifiedCount(), is(1L));
@@ -65,9 +66,10 @@ public class Exercise11UpdateAFieldTest {
         collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         // When
-        Document findCharlie = new Document("_id", charlie.getId());
-        UpdateResult resultOfUpdate = collection.updateOne(findCharlie,
-                new Document("$set", new Document("newField", "A New Value")));
+        // TODO create query to find Charlie by ID
+        Document findCharlie = null;
+        // TODO use the query to find charlie and update his street with the new address
+        UpdateResult resultOfUpdate = null;
 
         // Then
         assertThat(resultOfUpdate.getModifiedCount(), is(1L));
@@ -90,8 +92,9 @@ public class Exercise11UpdateAFieldTest {
         collection.insertOne(PersonAdaptor.toDocument(charlie));
 
         // When
-        Document findBob = new Document("_id", "bob");
-        collection.updateOne(findBob, new Document("$push", new Document("books", 66)));
+        // TODO create query to find Bob by ID
+        Document findBob = null;
+        // TODO update the only Bob document to add the ID '66' to the array of Book IDs
 
         // Then
         Document newBob = collection.find(findBob).first();

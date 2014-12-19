@@ -16,10 +16,11 @@ public class Exercise2MongoClientTest {
     @Test
     public void shouldGetADatabaseFromTheMongoClient() throws Exception {
         // Given
-        MongoClient mongoClient = new MongoClient();
+        // TODO any setup
 
         // When
-        MongoDatabase database = mongoClient.getDatabase("TheDatabaseName");
+        //TODO get the database from the client
+        MongoDatabase database = null;
 
         // Then
         assertThat(database, is(notNullValue()));
@@ -28,11 +29,11 @@ public class Exercise2MongoClientTest {
     @Test
     public void shouldGetACollectionFromTheDatabase() throws Exception {
         // Given
-        MongoClient mongoClient = new MongoClient();
-        MongoDatabase database = mongoClient.getDatabase("TheDatabaseName");
+        // TODO any setup
 
         // When
-        MongoCollection<Document> collection = database.getCollection("TheCollectionName");
+        // TODO get collection
+        MongoCollection<Document> collection = null;
 
         // Then
         assertThat(collection, is(notNullValue()));
@@ -44,7 +45,7 @@ public class Exercise2MongoClientTest {
         MongoClient mongoClient = new MongoClient();
 
         // When
-        mongoClient.close();
+        // TODO close the mongoClient
 
         // Then
         mongoClient.getDatabase("SomeDatabase").getCollection("coll").insertOne(new Document("field", "value"));

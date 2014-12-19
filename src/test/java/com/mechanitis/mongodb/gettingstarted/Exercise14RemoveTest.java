@@ -42,8 +42,10 @@ public class Exercise14RemoveTest {
         collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
-        Document query = new Document("_id", "charlie");
-        DeleteResult resultOfRemove = collection.deleteOne(query);
+        // TODO create a query to find charlie by ID
+        Document query = null;
+        // TODO execute the delete
+        DeleteResult resultOfRemove = null;
 
         // Then
         assertThat(resultOfRemove.getDeletedCount(), is(1L));
@@ -74,8 +76,10 @@ public class Exercise14RemoveTest {
         collection.insertOne(PersonAdaptor.toDocument(emily));
 
         // When
-        Document query = new Document("address.city", "LondonTown");
-        DeleteResult resultOfRemove = collection.deleteMany(query);
+        // TODO create the query to check the city field inside the address subdocument for 'LondonTown'
+        Document query = null;
+        // TODO execute the delete
+        DeleteResult resultOfRemove = null;
 
         // Then
         assertThat(resultOfRemove.getDeletedCount(), is(2L));
