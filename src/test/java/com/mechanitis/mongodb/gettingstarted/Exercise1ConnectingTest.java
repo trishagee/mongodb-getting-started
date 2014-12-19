@@ -10,7 +10,7 @@ import static org.junit.Assert.assertThat;
 
 public class Exercise1ConnectingTest {
     @Test
-    public void shouldCreateANewMongoClientConnectedToLocalhost() throws Exception {
+    public void shouldCreateANewMongoClientConnectedToLocalhost() {
         // When
         MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
         // Alternatively, this will initialise one with the default host and port
