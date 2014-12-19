@@ -11,7 +11,6 @@ import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.net.UnknownHostException;
@@ -22,11 +21,10 @@ import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class Exercise10UpdateByReplacementTest {
+public class Exercise10ReplaceTest {
     private MongoDatabase database;
     private MongoCollection<Document> collection;
 
-    @Ignore("Behaviour changed in 3.0 driver")
     @Test
     public void shouldReplaceWholeDocumentWithNewOne() {
         // Given
@@ -40,7 +38,7 @@ public class Exercise10UpdateByReplacementTest {
         Person updatedCharlieObject = new Person("charlie", "Charles the Suave", new Address("A new street", "GreatCity", 7654321),
                                                  Collections.<Integer>emptyList());
         Document findCharlie = new Document("_id", charlie.getId());
-        UpdateResult resultOfUpdate = collection.updateOne(findCharlie, PersonAdaptor.toDocument(updatedCharlieObject));
+        UpdateResult resultOfUpdate = collection.replaceOne(findCharlie, PersonAdaptor.toDocument(updatedCharlieObject));
 
         // Then
         assertThat(resultOfUpdate.getModifiedCount(), is(1L));
